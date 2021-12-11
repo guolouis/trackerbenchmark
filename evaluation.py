@@ -96,7 +96,7 @@ def main():
     parser.add_argument("-n", "--number", help="The number of the video")
     parser.add_argument("-at", "--alltrackers", action="store_true", help="Launch all trackers")
     parser.add_argument("-an", "--allnumbers", action="store_true", help="Launch all videos")
-
+    parser.add_argument("-iou", "--IOU", action="store_true", help="intersection over union")
     parser.add_argument("-t", "--tracker", help="Tracker to use")
     parser.add_argument("-p", "--plot", help="Plots the results")
     
@@ -142,9 +142,15 @@ def main():
 
     print(len(listtrackers), len(allcenter), len(colors))
 
+    if opts.IOU:
+        Data = alliou
+    else:
+        Data = allcenter
+    
+
     df3 = pd.DataFrame()
     for i in range(7):
-        df = pd.DataFrame(alliou[i]).T
+        df = pd.DataFrame(Data[i]).T
         df3 = df3.append(df)
 
     df3.columns = listtrackers
@@ -154,14 +160,12 @@ def main():
     fig = plt.figure(figsize=(15, 15))
     ax1 = fig.add_subplot(111)
     for i in range(7):
-        ax1.plot(listtrackers, alliou[i], label = "video " + str(i), color = colors[i])
-        ax1.scatter(listtrackers, alliou[i], color = colors[i], marker='.', s=200)
+        ax1.plot(listtrackers, Data[i], label = "video " + str(i), color = colors[i])
+        ax1.scatter(listtrackers, Data[i], color = colors[i], marker='.', s=200)
 
     # x-axis label
 
 
-    centermsg1 = "distance of the center between groundtruth and prediction"
-    centermsg2 = "Plot of the center distance between prediction and groundtruth for the 9 trackers"
     plt.xlabel('trackers')
     # frequency label
     plt.ylabel('ATA: average IOU')
@@ -170,7 +174,10 @@ def main():
     # showing legend
     plt.legend()
     # function to show the plot
-    plt.savefig('../videoprocreport/center1.png')
+    if opts.IOU:
+        plt.savefig('plots/iou.png')
+    else:
+        plt.savefig("plots/center.png")
     plt.show()
     
     
