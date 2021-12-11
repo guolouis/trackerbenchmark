@@ -166,12 +166,19 @@ def main():
     # x-axis label
 
 
+    
     plt.xlabel('trackers')
     # frequency label
-    plt.ylabel('ATA: average IOU')
-    # plot title
-    plt.title('ATA on the 9 trackers')
-    # showing legend
+    if opts.IOU:
+
+        plt.ylabel('ATA: average IOU')
+        # plot title
+        plt.title('ATA on the 9 trackers')
+    else:
+        plt.ylabel("Average center distance between groundtruth and prediction")
+        plt.title('Average center distance on the 9 trackers')
+
+        # showing legend
     plt.legend()
     # function to show the plot
     if opts.IOU:
