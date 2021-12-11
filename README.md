@@ -27,3 +27,10 @@ To compute the txt outputfile of all the trackers on one video
 
 
 
+## KeepTrack and Dimp
+
+Dimp
+[[Paper]](https://arxiv.org/pdf/1904.07220)
+
+KeepTrack
+[[Paper]](https://arxiv.org/abs/2103.16556)
