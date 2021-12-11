@@ -156,7 +156,7 @@ def main():
     df3.columns = listtrackers
     df3.insert(0, "video name", [0, 1, 2, 3, 4, 5,6], True)
     print(df3)
-    print(df3.to_latex(index=False))
+    print(df3.to_markdown(index=False))
     fig = plt.figure(figsize=(15, 15))
     ax1 = fig.add_subplot(111)
     for i in range(7):
