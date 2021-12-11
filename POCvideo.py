@@ -19,6 +19,7 @@ def writeresult(path, listbb):
         for coord in bb:
             textfile.write(str(coord) + " ")
         textfile.write("\n")
+    print("Result wrote into file " + path)
     textfile.close()
 
 def parseresults(path):
@@ -45,7 +46,7 @@ def runtracker(inputfile, trackername, bbox):
     if not bbox:
         bbox = cv2.selectROI("Target", img, False)
 
-    res = []
+    res = [[int(float(bbox[0])), int(float(bbox[1])), int(float(bbox[2])), int(float(bbox[3]))]]
     currenttracker.init(img, bbox)
 
     while True:
@@ -57,7 +58,7 @@ def runtracker(inputfile, trackername, bbox):
                 x, y, w, h = int(float(bbox[0])), int(float(bbox[1])), int(float(bbox[2])), int(float(bbox[3]))
                 drawBox(img, x, y, w, h)
                 cv2.putText(img, "Target", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
-                res.append([x, y, x + w, y + h])
+                res.append([x, y, w, h])
             else:
                 cv2.putText(img, "Lost", (50, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                 res.append(res[-1])
@@ -76,12 +77,8 @@ def runtracker(inputfile, trackername, bbox):
     capture.release()
     # Closes all the frames
     cv2.destroyAllWindows()
+
     return res
-
-
- 
-
-
 
 def main():
     parser = argparse.ArgumentParser()
@@ -102,14 +99,11 @@ def main():
 
     if not opts.alltrackers:
         listtrackers = [opts.tracker]
-    
-        
+
     for opencvtracker in listtrackers:
-        runtracker(opts.video_path, opencvtracker, listGroundtruth)
-
-
-    
-
+        listbb = runtracker(opts.video_path, opencvtracker, listGroundtruth)
+        if opts.save:
+            writeresult("trackersresults/" + opts.video_path.split('.')[0][-1] + "/" + opencvtracker + ".txt", listbb)
 
 if __name__ == "__main__":
     main()

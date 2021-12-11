@@ -14,4 +14,16 @@ In the **groundtruth folder** each file is numbered from 0 to 9 and is associate
 
 In the **trackersresults** folder,  each sub folder are numbered from 0 to 9 and contain the results of the 10 trackers on that video.
 
+## COMMANDS
+
+To launch a video number + tracker to visualize the video
+``` python visuaize.py -n 0 -t keeptrack ```
+
+To launch the evaluation on a tracker
+``` python evaluation.py -n 0 -t csrt ```
+
+To compute the txt outputfile of all the trackers on one video
+``` python POCvideo.py -v video/0.mp4 -a -s -b ```
+
+
 
